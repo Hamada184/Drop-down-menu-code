@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings Dropdown</title>
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333;
+    --dropdown-bg: #f4f4f4;
+    --hover-bg: #ddd;
+    --font-size: 16px;
+    --accent-color: #0078d7;
+  }
+  body.dark {
+    --bg-color: #1e1e1e;
+    --text-color: #eee;
+    --dropdown-bg: #333;
+    --hover-bg: #444;
+  }
+  body.compact {
+    --font-size: 14px;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size);
+    transition: background 0.3s, color 0.3s, font-size 0.3s;
+    padding: 20px;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropbtn {
+    background-color: var(--dropdown-bg);
+    color: var(--text-color);
+    padding: 10px 14px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--dropdown-bg);
+    min-width: 260px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    z-index: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  .dropdown-content a, .dropdown-content div {
+    color: var(--text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .dropdown-content a:hover, .dropdown-content div:hover {
+    background-color: var(--hover-bg);
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .divider {
+    height: 1px;
+    background: var(--hover-bg);
+    margin: 4px 0;
+  }
+  .icon { width: 18px; text-align: center; }
+  .flag { width: 20px; }
+  select { border-radius: 4px; padding: 2px; }
+</style>
+</head>
+<body>
+
+<div class="dropdown" tabindex="0">
+  <button class="dropbtn">⚙️ Settings ▾</button>
+  <div class="dropdown-content">
+    <!-- Functional Enhancements -->
+    <a href="#"><span class="icon">👤</span> Profile Settings</a>
+    <a href="#"><span class="icon">🔔</span> Notification Settings</a>
+    <a href="#"><span class="icon">🔒</span> Privacy Controls</a>
+    <a href="#"><span class="icon">📑</span> Saved Items / Bookmarks</a>
+    <a href="#"><span class="icon">❓</span> Help & Support</a>
+
+    <div class="divider"></div>
+
+    <!-- UX & Personalization -->
+    <div><span class="icon">🌙</span><label><input type="checkbox" id="themeSwitch"> Dark Mode</label></div>
+    <div><span class="icon">🔠</span><label><input type="checkbox" id="fontSwitch"> Larger Font</label></div>
+    <div><span class="icon">🎨</span> Theme Color <select id="colorPicker">
+      <option value="#0078d7">Blue</option>
+      <option value="#e91e63">Pink</option>
+      <option value="#4caf50">Green</option>
+    </select></div>
+    <div><span class="icon">📐</span><label><input type="checkbox" id="layoutSwitch"> Compact Layout</label></div>
+
+    <div class="divider"></div>
+
+    <!-- Language Selector -->
+    <div id="langSwitch">
+      <img src="https://flagcdn.com/w40/gb.png" class="flag"> English /
+      <img src="https://flagcdn.com/w40/eg.png" class="flag"> العربية
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Smart Features -->
+    <a href="#"><span class="icon">📊</span> Recent Activity</a>
+    <a href="#"><span class="icon">🏆</span> Gamification Stats</a>
+    <a href="#"><span class="icon">🤖</span> AI Assistant</a>
+    <a href="#"><span class="icon">⏰</span> Session Timeout Warning</a>
+
+    <div class="divider"></div>
+
+    <!-- Account Actions -->
+    <a href="#" id="changePwdBtn"><span class="icon">🔑</span> Change Password</a>
+    <a href="#" id="logoutBtn"><span class="icon">🚪</span> Log Out</a>
+    <a href="#" id="deleteBtn"><span class="icon">🗑️</span> Delete Account</a>
+  </div>
+</div>
+
+<h1 id="pageTitle">Welcome to the Website</h1>
+<p id="pageDesc">Use the settings above to personalize your experience.</p>
+
+<script>
+  // Theme Toggle
+  document.getElementById('themeSwitch').addEventListener('change', e => {
+    document.body.classList.toggle('dark', e.target.checked);
+  });
+  // Font Toggle
+  document.getElementById('fontSwitch').addEventListener('change', e => {
+    document.body.style.setProperty('--font-size', e.target.checked ? '18px' : '16px');
+  });
+  // Layout Toggle
+  document.getElementById('layoutSwitch').addEventListener('change', e => {
+    document.body.classList.toggle('compact', e.target.checked);
+  });
+  // Color Picker
+  document.getElementById('colorPicker').addEventListener('change', e => {
+    document.documentElement.style.setProperty('--accent-color', e.target.value);
+  });
+  // Language Switch
+  let currentLang = 'en';
+  document.getElementById('langSwitch').addEventListener('click', () => {
+    currentLang = currentLang === 'en' ? 'ar' : 'en';
+    document.documentElement.lang = currentLang;
+    document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('pageTitle').textContent =
+      currentLang === 'ar' ? 'مرحبًا بك في الموقع' : 'Welcome to the Website';
+    document.getElementById('pageDesc').textContent =
+      currentLang === 'ar' ? 'استخدم الإعدادات أعلاه لتخصيص تجربتك.' : 'Use the settings above to personalize your experience.';
+  });
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', e => {
+    e.preventDefault();
+    alert('Logging out...');
+  });
+  // Delete Account
+  document.getElementById('deleteBtn').addEventListener('click', e => {
+    e.preventDefault();
+    if (confirm('Are you sure? This cannot be undone.')) alert('Account deleted.');
+  });
+  // Change Password
+  document.getElementById('changePwdBtn').addEventListener('click', e => {
+    e.preventDefault();
+    let newPwd = prompt('Enter your new password:');
+    if (newPwd) alert('Password changed successfully.');
+  });
+  // Keyboard Navigation
+  document.querySelector('.dropdown').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      document.querySelector('.dropdown-content').style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
